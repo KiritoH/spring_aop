@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置目标类-->
+    <bean id="studentDao" class="com.yww.demo5.StudentDaoImpl"></bean>
+    <bean id="customerDao" class="com.yww.demo5.CustomerDao"></bean>
+
+    <!--配置增强-->
+    <bean id="myBeforeAdvice" class="com.yww.demo5.MyBeforeAdvice"/>
+    <bean id="myAroundAdvice" class="com.yww.demo5.MyAroundAdvice"/>
+
+
+    <!--(基于Bean名称的完成的自动代理,但如果要求是对特定方法进行增强,此方法就会不合适)通过配置完成自动代理-->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <!--配置属性-->
+        <property name="beanNames" value="*Dao"/>
+        <property name="interceptorNames" value="myBeforeAdvice"/>
+    </bean>
+</beans>

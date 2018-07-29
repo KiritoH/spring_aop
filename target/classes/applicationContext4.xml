@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置目标类-->
+    <bean id="studentDao" class="com.yww.demo6.StudentDaoImpl"></bean>
+    <bean id="customerDao" class="com.yww.demo6.CustomerDao"></bean>
+
+    <!--配置增强-->
+    <bean id="myBeforeAdvice" class="com.yww.demo6.MyBeforeAdvice"/>
+    <bean id="myAroundAdvice" class="com.yww.demo6.MyAroundAdvice"/>
+
+    <!--配置切面-->
+    <bean id="myAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <!--pattern中配置正则表达式: .任意字符   *任意次数  -->
+        <!--以下是对所有方法进行增强-->
+        <!--<property name="pattern" value=".*"/>-->
+        <!--以下是对save方法进行增强-->
+        <!--<property name="pattern" value=".*save.*"/>-->
+        <!--对多个方法进行增强  用"|"分开-->
+        <property name="pattern" value="com\.yww\.demo6\.CustomerDao\.save"/>
+        <property name="advice" ref="myAroundAdvice"/>
+    </bean>
+
+    <!---->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+
+    </bean>
+</beans>
